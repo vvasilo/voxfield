@@ -642,6 +642,17 @@ void NpTsdfServer::updateMesh() {
   mesh_msg.header.frame_id = world_frame_;
   mesh_pub_.publish(mesh_msg);
 
+  if (!mesh_filename_.empty()) {
+    timing::Timer output_mesh_timer("mesh/output");
+    const bool success = outputMeshLayerAsPly(mesh_filename_, *mesh_layer_);
+    output_mesh_timer.Stop();
+    if (success) {
+      ROS_INFO("Output file as PLY: %s", mesh_filename_.c_str());
+    } else {
+      ROS_INFO("Failed to output mesh as PLY: %s", mesh_filename_.c_str());
+    }
+  }
+
   if (cache_mesh_) {
     cached_mesh_msg_ = mesh_msg;
   }

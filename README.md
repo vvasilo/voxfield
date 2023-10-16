@@ -24,26 +24,23 @@ Voxfield can be seamlessly integrated into those projects that originally use Vo
 
 ## Installation
 
-If you have installed ROS, set up the catkin workspace and the SSH key for github, you can use the following commands to install Voxfield:
+1. If you have installed ROS, set up the catkin workspace and the SSH key for github, you can use the following commands to install Voxfield:
 
-```
-cd ~/catkin_ws/src/
-git clone git@github.com:VIS4ROB-lab/voxfield.git
-wstool init . ./voxfield/voxfield_ssh.rosinstall     # If you created a new workspace
-wstool merge -t . ./voxfield/voxfield_ssh.rosinstall # If you use an existing workspace
-wstool update
-```
+    ```
+    cd <path to catkin_ws>/src
+    git clone https://github.com/vvasilo/voxfield.git
+    ```
 
-And then compile Voxfield with:
+2. Compile Voxfield with:
 
-```
-cd ~/catkin_ws/src/
-catkin build voxblox_ros
-```
+    ```
+    cd <path to catkin_ws>
+    catkin build voxblox_ros
+    ```
 
-To avoid the potential conflict, if the original voxblox was installed, it's better to remove voxblox from `catkin_ws/src`.
+    To avoid the potential conflict, if the original voxblox was installed, it's better to remove voxblox from `catkin_ws/src`.
 
-For more details, please follow these [instructions](https://voxblox.readthedocs.io/en/latest/pages/Installation.html).
+    For more details, please follow these [instructions](https://voxblox.readthedocs.io/en/latest/pages/Installation.html).
 
 ## Instructions
 

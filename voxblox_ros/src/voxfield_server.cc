@@ -158,6 +158,9 @@ void VoxfieldServer::updateEsdfEvent(const ros::TimerEvent& /*event*/) {
   updateEsdf();
   if (publish_slices_)
     publishSlices();
+  if (publish_esdf_map_) {
+    publishMap();
+  }
 }
 
 bool VoxfieldServer::saveEsdfMapCallback(
