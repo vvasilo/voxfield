@@ -40,6 +40,35 @@ void serializeLayerAsMsg(
 }  // namespace voxblox
 
 template <typename VoxelType>
+void serializeLayerAsDiscreteSDFMsg(
+    const Layer<VoxelType>& layer, const bool only_updated,
+    voxblox_msgs::DiscreteSDF* msg, const MapDerializationAction& action) {
+  CHECK_NOTNULL(msg);
+  msg->voxels_per_side = layer.voxels_per_side();
+  msg->voxel_size = layer.voxel_size();
+
+  msg->layer_type = getVoxelType<VoxelType>();
+
+  BlockIndexList block_list;
+  if (only_updated) {
+    layer.getAllUpdatedBlocks(Update::kMap, &block_list);
+  } else {
+    layer.getAllAllocatedBlocks(&block_list);
+  }
+  msg->action = static_cast<uint8_t>(action);
+
+  //msg->data.reserve(block_list.size());
+  for (const BlockIndex& index : block_list) {
+    std::vector<uint32_t> data;
+    layer.getBlockByIndex(index).serializeToIntegers(&data);
+    msg->data.insert(msg->data.end(), data.begin(), data.end());
+    msg->indices.push_back(index.x());
+    msg->indices.push_back(index.y());
+    msg->indices.push_back(index.z());
+  }
+}  // namespace voxblox
+
+template <typename VoxelType>
 bool deserializeMsgToLayer(
     const voxblox_msgs::Layer& msg, Layer<VoxelType>* layer) {
   CHECK_NOTNULL(layer);

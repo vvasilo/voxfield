@@ -65,7 +65,7 @@ void VoxfieldServer::setupRos() {
       nh_private_.advertise<pcl::PointCloud<pcl::PointXYZI> >(
           "esdf_error_slice", 1, true);
   esdf_map_pub_ =
-      nh_private_.advertise<voxblox_msgs::Layer>("esdf_map_out", 1, false);
+      nh_private_.advertise<voxblox_msgs::DiscreteSDF>("esdf_map_out", 1, false);
   // Set up subscriber.
   esdf_map_sub_ = nh_private_.subscribe(
       "esdf_map_in", 1, &VoxfieldServer::esdfMapCallback, this);
@@ -205,13 +205,14 @@ void VoxfieldServer::publishMap(bool reset_remote_map) {
     }
     const bool only_updated = !reset_remote_map;
     timing::Timer publish_map_timer("map/publish_esdf");
-    voxblox_msgs::Layer layer_msg;
-    serializeLayerAsMsg<EsdfVoxel>(
-        this->esdf_map_->getEsdfLayer(), only_updated, &layer_msg);
+    //voxblox_msgs::Layer layer_msg;
+    voxblox_msgs::DiscreteSDF sdf_msg;
+    serializeLayerAsDiscreteSDFMsg<EsdfVoxel>(
+        this->esdf_map_->getEsdfLayer(), only_updated, &sdf_msg);
     if (reset_remote_map) {
-      layer_msg.action = static_cast<uint8_t>(MapDerializationAction::kReset);
+      sdf_msg.action = static_cast<uint8_t>(MapDerializationAction::kReset);
     }
-    this->esdf_map_pub_.publish(layer_msg);
+    this->esdf_map_pub_.publish(sdf_msg);
     publish_map_timer.Stop();
   }
   num_subscribers_esdf_map_ = subscribers;

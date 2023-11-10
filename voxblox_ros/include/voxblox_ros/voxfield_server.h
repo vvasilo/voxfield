@@ -9,6 +9,7 @@
 #include <voxblox/integrator/esdf_voxfield_integrator.h>
 #include <voxblox/integrator/occupancy_tsdf_integrator.h>
 #include <voxblox_msgs/Layer.h>
+#include <voxblox_msgs/DiscreteSDF.h>
 
 #include "voxblox_ros/np_tsdf_server.h"
 

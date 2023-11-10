@@ -14,6 +14,7 @@
 #include <voxblox/mesh/mesh.h>
 #include <voxblox/utils/color_maps.h>
 #include <voxblox_msgs/Layer.h>
+#include <voxblox_msgs/DiscreteSDF.h>
 
 namespace voxblox {
 
@@ -194,6 +195,12 @@ template <typename VoxelType>
 void serializeLayerAsMsg(
     const Layer<VoxelType>& layer, const bool only_updated,
     voxblox_msgs::Layer* msg,
+    const MapDerializationAction& action = MapDerializationAction::kUpdate);
+
+template <typename VoxelType>
+void serializeLayerAsDiscreteSDFMsg(
+    const Layer<VoxelType>& layer, const bool only_updated,
+    voxblox_msgs::DiscreteSDF* msg,
     const MapDerializationAction& action = MapDerializationAction::kUpdate);
 
 /**
